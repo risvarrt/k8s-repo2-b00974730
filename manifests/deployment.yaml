@@ -31,7 +31,7 @@ spec:
         - name: image1
           # Replace $LOCATION with your Artifact Registry location (e.g., us-west1).
           # Replace $GCLOUD_PROJECT with your project ID.
-          image: us-central1-docker.pkg.dev/k8s-b00974730/k8s-artreg-b00974730/image1
+          image: us-central1-docker.pkg.dev/csci-5409-441200/k8s-artreg-b00974730/image1
           # This app listens on port 8080 for web traffic by default.
           ports:
           - containerPort: 5002
@@ -41,7 +41,7 @@ spec:
         - name: image2
           # Replace $LOCATION with your Artifact Registry location (e.g., us-west1).
           # Replace $GCLOUD_PROJECT with your project ID.
-          image: us-central1-docker.pkg.dev/k8s-b00974730/k8s-artreg2-b00974730/image2
+          image: us-central1-docker.pkg.dev/csci-5409-441200/k8s-artreg2-b00974730/image2
           # This app listens on port 8080 for web traffic by default.
           ports:
           - containerPort: 7002
