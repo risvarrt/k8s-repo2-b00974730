@@ -37,7 +37,7 @@ spec:
           - containerPort: 5002
           volumeMounts:
           - name: k8s-volume-b00974730
-            mountPath: /lokeshwar_PV_dir
+            mountPath: /risvarrt_PV_dir
         - name: image2
           # Replace $LOCATION with your Artifact Registry location (e.g., us-west1).
           # Replace $GCLOUD_PROJECT with your project ID.
@@ -47,7 +47,7 @@ spec:
           - containerPort: 7002
           volumeMounts:
           - name: k8s-volume-b00974730
-            mountPath: /lokeshwar_PV_dir
+            mountPath: /risvarrt_PV_dir
       volumes:
         - name: k8s-volume-b00974730
           persistentVolumeClaim:
