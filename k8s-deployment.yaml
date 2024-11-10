@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image1
+  template:
+    metadata:
+      labels:
+        app: image1
+    spec:
+      containers:
+        - name: image1
+          image: us-central1-docker.pkg.dev/csci-5409-441200/k8s-artreg-b00974730/image1
+          ports:
+            - containerPort: 5002
+          volumeMounts:
+            - name: k8s-volume-b00974730
+              mountPath: /risvarrt_PV_dir
+      volumes:
+        - name: k8s-volume-b00974730
+          persistentVolumeClaim:
+            claimName: k8s-pvc-b00974730
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ks-service-b00974730
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 5002
+  selector:
+    app: image1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image2
+  template:
+    metadata:
+      labels:
+        app: image2
+    spec:
+      containers:
+        - name: image2
+          image: us-central1-docker.pkg.dev/csci-5409-441200/k8s-artreg2-b00974730/image2
+          ports:
+            - containerPort: 7002
+          volumeMounts:
+            - name: k8s-volume-b00974730
+              mountPath: /risvarrt_PV_dir
+
+      volumes:
+        - name: k8s-volume-b00974730
+          persistentVolumeClaim:
+            claimName: k8s-pvc-b00974730
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ks-service2-b00974730
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 7002
+      targetPort: 7002
+  selector:
+    app: image2
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: k8s-pv-b00974730
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: kubernetes-disk
+    fsType: ext4
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k8s-pvc-b00974730
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
