@@ -15,29 +15,29 @@ def process():
 
     # Check if the file extension is '.csv'
     if not file_name.endswith('.csv'):
-        return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 404
+        return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 400
 
     # Check if the file is a valid CSV
     try:
         with open(filepath, 'r') as file:
-            reader = csv.reader(file, delimiter=',')
+            reader = csv.reader(file)
             headers = next(reader)
             num_columns = len(headers)
 
             for row in reader:
                 if len(row) != num_columns:
-                    return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 404
+                    return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 400
     except Exception as e:
-        return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 404
+        return jsonify({"file": file_name, "error": "Input file not in CSV format."}), 400
 
     # Process the file
+    total = 0
     try:
-        total = 0
         with open(filepath, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                if row['product'] == product:
-                    total += int(row['amount'])
+                if row.get('product') == product:
+                    total += int(row.get('amount', 0))  # Default to 0 if 'amount' is missing
         return jsonify({"file": file_name, "sum": total})
     except Exception as e:
         return jsonify({"file": file_name, "error": str(e)}), 400

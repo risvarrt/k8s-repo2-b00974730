@@ -90,9 +90,11 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain  # Ensures PV is retained if PVC is deleted
   gcePersistentDisk:
-    pdName: kubernetes-disk
+    pdName: kubernetes-disk  # Ensure this disk exists in the same zone as your cluster
     fsType: ext4
+
 
 ---
 apiVersion: v1
